@@ -1,119 +1,118 @@
-CREATE TABLE usuario (
-  usuario_id INTEGER PRIMARY KEY,
-  primeiro_nome VARCHAR(200) NOT NULL,
-  ultimo_nome VARCHAR(200) NOT NULL,
+CREATE TABLE users (
+  user_id INTEGER PRIMARY KEY,
+  first_name VARCHAR(200) NOT NULL,
+  last_name VARCHAR(200) NOT NULL,
   email VARCHAR(200) UNIQUE NOT NULL,
-  senha VARCHAR(60) NOT NULL,
-  organizacao VARCHAR(200) NOT NULL,
-  tipo_usuario VARCHAR(50) NOT NULL
+  password VARCHAR(60) NOT NULL,
+  organization VARCHAR(200) NOT NULL,
+  user_role VARCHAR(50) NOT NULL
 );
 
-CREATE TABLE equipe (
-  equipe_id INTEGER PRIMARY KEY,
-  nome VARCHAR(200) NOT NULL,
-  descricao VARCHAR(200)
+CREATE TABLE team (
+  team_id INTEGER PRIMARY KEY,
+  name VARCHAR(200) NOT NULL,
+  description VARCHAR(200)
 );
 
-CREATE TABLE usuario_equipe (
-	usuario_equipe_id INTEGER PRIMARY KEY,
-	usuario_id INTEGER NOT NULL,
-	equipe_id INTEGER NOT NULL,
-	funcao_id INTEGER
+CREATE TABLE user_team (
+	user_team_id INTEGER PRIMARY KEY,
+	user_id INTEGER NOT NULL,
+	team_id INTEGER NOT NULL,
+	team_role_id INTEGER
 );
 
-CREATE TABLE funcao (
-	funcao_id INTEGER PRIMARY KEY,
-	descricao VARCHAR(200)
+CREATE TABLE team_role (
+	team_role_id INTEGER PRIMARY KEY,
+	description VARCHAR(200)
 );
 
-CREATE TABLE endereco (
-  endereco_id INTEGER PRIMARY KEY,
+CREATE TABLE address (
+  address_id INTEGER PRIMARY KEY,
   uf VARCHAR(2) NOT NULL,
-  cidade VARCHAR(200) NOT NULL,
+  city VARCHAR(200) NOT NULL,
   cep VARCHAR(8) NOT NULL,
-  rua VARCHAR(200) NOT NULL,
-  bairro VARCHAR(200) NOT NULL,
-  numero INTEGER NOT NULL,
-  referencia VARCHAR(200)
+  street VARCHAR(200) NOT NULL,
+  district VARCHAR(200) NOT NULL,
+  number INTEGER NOT NULL,
+  reference VARCHAR(200)
 );
 
-CREATE TABLE cliente (
-  cliente_id INTEGER PRIMARY KEY,
-  primeiro_nome VARCHAR(200) NOT NULL,
-  ultimo_nome VARCHAR(200) NOT NULL,
+CREATE TABLE client (
+  client_id INTEGER PRIMARY KEY,
+  first_name VARCHAR(200) NOT NULL,
+  last_name VARCHAR(200) NOT NULL,
   cpf VARCHAR(11) UNIQUE NOT NULL,
-  celular VARCHAR(11) UNIQUE NOT NULL,
-  endereco_id INTEGER NOT NULL
+  phone_number VARCHAR(11) UNIQUE NOT NULL,
+  address_id INTEGER NOT NULL
 );
 
-CREATE TABLE pertence (
-  pertence_id INTEGER PRIMARY KEY,
-  nome VARCHAR(200) NOT NULL,
-  cliente_id INTEGER NOT NULL,
-  tipo_pertence_id INTEGER
+CREATE TABLE product (
+  product_id INTEGER PRIMARY KEY,
+  client_id INTEGER NOT NULL,
+  product_type_id INTEGER
 );
 
-CREATE TABLE tipo_pertence (
-  tipo_pertence_id INTEGER PRIMARY KEY,
-  descricao VARCHAR(200) NOT NULL
+CREATE TABLE product_type (
+  product_type_id INTEGER PRIMARY KEY,
+  description VARCHAR(200) NOT NULL
 );
 
-CREATE TABLE atividade (
-  atividade_id INTEGER PRIMARY KEY,
-  cliente_id INTEGER NOT NULL,
-  prazo DATE,
-  usuario_id INTEGER,
-  status_atividade_id INTEGER NOT NULL,
-  valor_total DECIMAL(8, 2)
+CREATE TABLE task (
+  task_id INTEGER PRIMARY KEY,
+  client_id INTEGER NOT NULL,
+  deadline DATE,
+  user_id INTEGER,
+  task_status_id INTEGER NOT NULL,
+  total_price DECIMAL(8, 2)
 );
 
-CREATE TABLE status_atividade (
-  status_atividade_id INTEGER PRIMARY KEY,
-  descricao VARCHAR(200) NOT NULL
+CREATE TABLE task_status (
+  task_status_id INTEGER PRIMARY KEY,
+  description VARCHAR(200) NOT NULL
 );
 
-CREATE TABLE tipo_atividade (
-  tipo_atividade_id INTEGER PRIMARY KEY,
-  descricao VARCHAR(200) NOT NULL
+CREATE TABLE task_type (
+  task_type_id INTEGER PRIMARY KEY,
+  description VARCHAR(200) NOT NULL
 );
 
-CREATE TABLE pertence_atividade (
-  pertence_atividade_id INTEGER PRIMARY KEY,
-  atividade_id INTEGER NOT NULL,
-  pertence_id INTEGER NOT NULL,
-  tipo_atividade_id INTEGER,
-  descricao TEXT,
-  status_atividade_id INTEGER NOT NULL,
-  valor DECIMAL(8, 2)
+CREATE TABLE task_product (
+  task_product_id INTEGER PRIMARY KEY,
+  task_id INTEGER NOT NULL,
+  product_id INTEGER NOT NULL,
+  task_type_id INTEGER,
+  description TEXT,
+  task_status_id INTEGER NOT NULL,
+  price DECIMAL(8, 2)
 );
 
-ALTER TABLE usuario_equipe ADD FOREIGN KEY (usuario_id) REFERENCES usuario(usuario_id);
-ALTER TABLE usuario_equipe ADD FOREIGN KEY (equipe_id) REFERENCES equipe(equipe_id);
-ALTER TABLE usuario_equipe ADD FOREIGN KEY (funcao_id) REFERENCES funcao(funcao_id);
+ALTER TABLE user_team ADD FOREIGN KEY (user_id) REFERENCES users (user_id);
+ALTER TABLE user_team ADD FOREIGN KEY (team_id) REFERENCES team (team_id);
+ALTER TABLE user_team ADD FOREIGN KEY (team_role_id) REFERENCES team_role (team_role_id);
 
-ALTER TABLE cliente ADD FOREIGN KEY (endereco_id) REFERENCES endereco (endereco_id);
+ALTER TABLE client ADD FOREIGN KEY (address_id) REFERENCES address (address_id);
 
-ALTER TABLE pertence ADD FOREIGN KEY (cliente_id) REFERENCES cliente (cliente_id);
-ALTER TABLE pertence ADD FOREIGN KEY (tipo_pertence_id) REFERENCES tipo_pertence (tipo_pertence_id);
+ALTER TABLE product ADD FOREIGN KEY (client_id) REFERENCES client (client_id);
+ALTER TABLE product ADD FOREIGN KEY (product_type_id) REFERENCES product_type (product_type_id);
 
-ALTER TABLE atividade ADD FOREIGN KEY (cliente_id) REFERENCES cliente (cliente_id);
-ALTER TABLE atividade ADD FOREIGN KEY (usuario_id) REFERENCES usuario (usuario_id);
-ALTER TABLE atividade ADD FOREIGN KEY (status_atividade_id) REFERENCES status_atividade (status_atividade_id);
+ALTER TABLE task ADD FOREIGN KEY (client_id) REFERENCES client (client_id);
+ALTER TABLE task ADD FOREIGN KEY (user_id) REFERENCES users (user_id);
+ALTER TABLE task ADD FOREIGN KEY (task_status_id) REFERENCES task_status (task_status_id);
 
-ALTER TABLE pertence_atividade ADD FOREIGN KEY (atividade_id) REFERENCES atividade(atividade_id);
-ALTER TABLE pertence_atividade ADD FOREIGN KEY (pertence_id) REFERENCES pertence(pertence_id);
-ALTER TABLE pertence_atividade ADD FOREIGN KEY (tipo_atividade_id) REFERENCES tipo_atividade(tipo_atividade_id);
-ALTER TABLE status_atividade ADD FOREIGN KEY (status_atividade_id) REFERENCES status_atividade(status_atividade_id);
+ALTER TABLE task_product ADD FOREIGN KEY (task_id) REFERENCES task(task_id);
+ALTER TABLE task_product ADD FOREIGN KEY (product_id) REFERENCES product(product_id);
+ALTER TABLE task_product ADD FOREIGN KEY (task_type_id) REFERENCES task_type(task_type_id);
+ALTER TABLE task_status ADD FOREIGN KEY (task_status_id) REFERENCES task_status(task_status_id);
 
-CREATE SEQUENCE usuario_sequence INCREMENT 1;
-CREATE SEQUENCE endereco_sequence INCREMENT 1;
-CREATE SEQUENCE equipe_sequence INCREMENT 1;
-CREATE SEQUENCE cliente_sequence INCREMENT 1;
-CREATE SEQUENCE pertence_sequence INCREMENT 1;
-CREATE SEQUENCE tipo_pertence_sequence INCREMENT 1;
-CREATE SEQUENCE atividade_sequence INCREMENT 1;
-CREATE SEQUENCE status_atividade_sequence INCREMENT 1;
-CREATE SEQUENCE tipo_atividade_sequence INCREMENT 1;
-CREATE SEQUENCE pertence_atividade_sequence INCREMENT 1;
-CREATE SEQUENCE usuario_equipe_sequence INCREMENT 1;
-CREATE SEQUENCE funcao_sequence INCREMENT 1;
+CREATE SEQUENCE user_sequence INCREMENT 1;
+CREATE SEQUENCE address_sequence INCREMENT 1;
+CREATE SEQUENCE team_sequence INCREMENT 1;
+CREATE SEQUENCE client_sequence INCREMENT 1;
+CREATE SEQUENCE product_sequence INCREMENT 1;
+CREATE SEQUENCE product_type_sequence INCREMENT 1;
+CREATE SEQUENCE task_sequence INCREMENT 1;
+CREATE SEQUENCE task_status_sequence INCREMENT 1;
+CREATE SEQUENCE task_type_sequence INCREMENT 1;
+CREATE SEQUENCE task_product_sequence INCREMENT 1;
+CREATE SEQUENCE user_team_sequence INCREMENT 1;
+CREATE SEQUENCE team_role_sequence INCREMENT 1;
