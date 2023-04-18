@@ -14,15 +14,14 @@ CREATE TABLE team (
   description VARCHAR(200)
 );
 
-CREATE TABLE user_team (
-	user_team_id INTEGER PRIMARY KEY,
-	user_id INTEGER NOT NULL,
-	team_id INTEGER NOT NULL,
-	team_role_id INTEGER
+CREATE TABLE team_member (
+  user_id INTEGER PRIMARY KEY,
+  team_id INTEGER,
+  team_member_role_id INTEGER
 );
 
-CREATE TABLE team_role (
-	team_role_id INTEGER PRIMARY KEY,
+CREATE TABLE team_member_role (
+	team_member_role_id INTEGER PRIMARY KEY,
 	description VARCHAR(200)
 );
 
@@ -61,7 +60,7 @@ CREATE TABLE task (
   task_id INTEGER PRIMARY KEY,
   client_id INTEGER NOT NULL,
   deadline DATE,
-  user_id INTEGER,
+  team_member_id INTEGER,
   task_status_id INTEGER NOT NULL,
   total_price DECIMAL(8, 2)
 );
@@ -86,9 +85,8 @@ CREATE TABLE task_product (
   price DECIMAL(8, 2)
 );
 
-ALTER TABLE user_team ADD FOREIGN KEY (user_id) REFERENCES users (user_id);
-ALTER TABLE user_team ADD FOREIGN KEY (team_id) REFERENCES team (team_id);
-ALTER TABLE user_team ADD FOREIGN KEY (team_role_id) REFERENCES team_role (team_role_id);
+ALTER TABLE team_member ADD FOREIGN KEY (team_id) REFERENCES team(team_id);
+ALTER TABLE team_member ADD FOREIGN KEY (team_member_role_id) REFERENCES team_member_role(team_member_role_id);
 
 ALTER TABLE client ADD FOREIGN KEY (address_id) REFERENCES address (address_id);
 
@@ -96,7 +94,7 @@ ALTER TABLE product ADD FOREIGN KEY (client_id) REFERENCES client (client_id);
 ALTER TABLE product ADD FOREIGN KEY (product_type_id) REFERENCES product_type (product_type_id);
 
 ALTER TABLE task ADD FOREIGN KEY (client_id) REFERENCES client (client_id);
-ALTER TABLE task ADD FOREIGN KEY (user_id) REFERENCES users (user_id);
+ALTER TABLE task ADD FOREIGN KEY (team_member_id) REFERENCES team_member (team_member_id);
 ALTER TABLE task ADD FOREIGN KEY (task_status_id) REFERENCES task_status (task_status_id);
 
 ALTER TABLE task_product ADD FOREIGN KEY (task_id) REFERENCES task(task_id);
@@ -114,5 +112,5 @@ CREATE SEQUENCE task_sequence INCREMENT 1;
 CREATE SEQUENCE task_status_sequence INCREMENT 1;
 CREATE SEQUENCE task_type_sequence INCREMENT 1;
 CREATE SEQUENCE task_product_sequence INCREMENT 1;
-CREATE SEQUENCE user_team_sequence INCREMENT 1;
-CREATE SEQUENCE team_role_sequence INCREMENT 1;
+CREATE SEQUENCE team_member_sequence INCREMENT 1;
+CREATE SEQUENCE team_member_role_sequence INCREMENT 1;
