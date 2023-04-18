@@ -94,7 +94,7 @@ ALTER TABLE product ADD FOREIGN KEY (client_id) REFERENCES client (client_id);
 ALTER TABLE product ADD FOREIGN KEY (product_type_id) REFERENCES product_type (product_type_id);
 
 ALTER TABLE task ADD FOREIGN KEY (client_id) REFERENCES client (client_id);
-ALTER TABLE task ADD FOREIGN KEY (team_member_id) REFERENCES team_member (team_member_id);
+ALTER TABLE task ADD FOREIGN KEY (team_member_id) REFERENCES team_member (user_id);
 ALTER TABLE task ADD FOREIGN KEY (task_status_id) REFERENCES task_status (task_status_id);
 
 ALTER TABLE task_product ADD FOREIGN KEY (task_id) REFERENCES task(task_id);
