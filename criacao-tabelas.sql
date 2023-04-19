@@ -17,12 +17,6 @@ CREATE TABLE team (
 CREATE TABLE team_member (
   user_id INTEGER PRIMARY KEY,
   team_id INTEGER,
-  team_member_role_id INTEGER
-);
-
-CREATE TABLE team_member_role (
-	team_member_role_id INTEGER PRIMARY KEY,
-	description VARCHAR(200)
 );
 
 CREATE TABLE address (
@@ -86,7 +80,6 @@ CREATE TABLE task_product (
 );
 
 ALTER TABLE team_member ADD FOREIGN KEY (team_id) REFERENCES team(team_id);
-ALTER TABLE team_member ADD FOREIGN KEY (team_member_role_id) REFERENCES team_member_role(team_member_role_id);
 
 ALTER TABLE client ADD FOREIGN KEY (address_id) REFERENCES address (address_id);
 
@@ -113,4 +106,3 @@ CREATE SEQUENCE task_status_sequence INCREMENT 1;
 CREATE SEQUENCE task_type_sequence INCREMENT 1;
 CREATE SEQUENCE task_product_sequence INCREMENT 1;
 CREATE SEQUENCE team_member_sequence INCREMENT 1;
-CREATE SEQUENCE team_member_role_sequence INCREMENT 1;
