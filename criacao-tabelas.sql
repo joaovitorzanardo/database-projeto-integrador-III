@@ -15,8 +15,9 @@ CREATE TABLE team (
 );
 
 CREATE TABLE team_member (
-  user_id INTEGER PRIMARY KEY,
-  team_id INTEGER,
+  team_member_id INTEGER PRIMARY KEY, 
+  user_id INTEGER,
+  team_id INTEGER
 );
 
 CREATE TABLE address (
@@ -55,13 +56,8 @@ CREATE TABLE task (
   client_id INTEGER NOT NULL,
   deadline DATE,
   team_member_id INTEGER,
-  task_status_id INTEGER NOT NULL,
+  task_status INTEGER NOT NULL,
   total_price DECIMAL(8, 2)
-);
-
-CREATE TABLE task_status (
-  task_status_id INTEGER PRIMARY KEY,
-  description VARCHAR(200) NOT NULL
 );
 
 CREATE TABLE task_type (
@@ -79,21 +75,20 @@ CREATE TABLE task_product (
   price DECIMAL(8, 2)
 );
 
+ALTER TABLE team_member ADD FOREIGN KEY (user_id) REFERENCES user(user_id);
 ALTER TABLE team_member ADD FOREIGN KEY (team_id) REFERENCES team(team_id);
 
-ALTER TABLE client ADD FOREIGN KEY (address_id) REFERENCES address (address_id);
+ALTER TABLE client ADD FOREIGN KEY (address_id) REFERENCES address(address_id);
 
-ALTER TABLE product ADD FOREIGN KEY (client_id) REFERENCES client (client_id);
-ALTER TABLE product ADD FOREIGN KEY (product_type_id) REFERENCES product_type (product_type_id);
+ALTER TABLE product ADD FOREIGN KEY (client_id) REFERENCES client(client_id);
+ALTER TABLE product ADD FOREIGN KEY (product_type_id) REFERENCES product_type(product_type_id);
 
-ALTER TABLE task ADD FOREIGN KEY (client_id) REFERENCES client (client_id);
-ALTER TABLE task ADD FOREIGN KEY (team_member_id) REFERENCES team_member (user_id);
-ALTER TABLE task ADD FOREIGN KEY (task_status_id) REFERENCES task_status (task_status_id);
+ALTER TABLE task ADD FOREIGN KEY (client_id) REFERENCES client(client_id);
+ALTER TABLE task ADD FOREIGN KEY (team_member_id) REFERENCES team_member(user_id);
 
 ALTER TABLE task_product ADD FOREIGN KEY (task_id) REFERENCES task(task_id);
 ALTER TABLE task_product ADD FOREIGN KEY (product_id) REFERENCES product(product_id);
 ALTER TABLE task_product ADD FOREIGN KEY (task_type_id) REFERENCES task_type(task_type_id);
-ALTER TABLE task_status ADD FOREIGN KEY (task_status_id) REFERENCES task_status(task_status_id);
 
 CREATE SEQUENCE user_sequence INCREMENT 1;
 CREATE SEQUENCE address_sequence INCREMENT 1;
@@ -102,7 +97,6 @@ CREATE SEQUENCE client_sequence INCREMENT 1;
 CREATE SEQUENCE product_sequence INCREMENT 1;
 CREATE SEQUENCE product_type_sequence INCREMENT 1;
 CREATE SEQUENCE task_sequence INCREMENT 1;
-CREATE SEQUENCE task_status_sequence INCREMENT 1;
 CREATE SEQUENCE task_type_sequence INCREMENT 1;
 CREATE SEQUENCE task_product_sequence INCREMENT 1;
 CREATE SEQUENCE team_member_sequence INCREMENT 1;
