@@ -98,5 +98,5 @@ CREATE SEQUENCE product_sequence INCREMENT 1;
 CREATE SEQUENCE product_type_sequence INCREMENT 1;
 CREATE SEQUENCE task_sequence INCREMENT 1;
 CREATE SEQUENCE task_type_sequence INCREMENT 1;
-CREATE SEQUENCE task_product_sequence INCREMENT 1;
+CREATE SEQUENCE task_item_sequence INCREMENT 1;
 CREATE SEQUENCE team_member_sequence INCREMENT 1;
