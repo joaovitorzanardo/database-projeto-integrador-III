@@ -66,7 +66,7 @@ CREATE TABLE task_type (
 );
 
 CREATE TABLE task_item (
-  task_product_id INTEGER PRIMARY KEY,
+  task_item_id INTEGER PRIMARY KEY,
   task_id INTEGER NOT NULL,
   product_id INTEGER NOT NULL,
   task_type_id INTEGER,
