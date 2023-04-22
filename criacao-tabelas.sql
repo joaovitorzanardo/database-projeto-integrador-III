@@ -56,8 +56,7 @@ CREATE TABLE task (
   client_id INTEGER NOT NULL,
   deadline DATE,
   team_member_id INTEGER,
-  task_status INTEGER NOT NULL,
-  total_price DECIMAL(8, 2)
+  task_status INTEGER NOT NULL
 );
 
 CREATE TABLE task_type (
