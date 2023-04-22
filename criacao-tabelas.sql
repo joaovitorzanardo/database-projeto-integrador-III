@@ -71,7 +71,7 @@ CREATE TABLE task_item (
   product_id INTEGER NOT NULL,
   task_type_id INTEGER,
   description TEXT,
-  task_status_id INTEGER NOT NULL,
+  task_status INTEGER NOT NULL,
   price DECIMAL(8, 2)
 );
 
