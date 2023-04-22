@@ -65,7 +65,7 @@ CREATE TABLE task_type (
   description VARCHAR(200) NOT NULL
 );
 
-CREATE TABLE task_product (
+CREATE TABLE task_item (
   task_product_id INTEGER PRIMARY KEY,
   task_id INTEGER NOT NULL,
   product_id INTEGER NOT NULL,
@@ -86,9 +86,9 @@ ALTER TABLE product ADD FOREIGN KEY (product_type_id) REFERENCES product_type(pr
 ALTER TABLE task ADD FOREIGN KEY (client_id) REFERENCES client(client_id);
 ALTER TABLE task ADD FOREIGN KEY (team_member_id) REFERENCES team_member(user_id);
 
-ALTER TABLE task_product ADD FOREIGN KEY (task_id) REFERENCES task(task_id);
-ALTER TABLE task_product ADD FOREIGN KEY (product_id) REFERENCES product(product_id);
-ALTER TABLE task_product ADD FOREIGN KEY (task_type_id) REFERENCES task_type(task_type_id);
+ALTER TABLE task_item ADD FOREIGN KEY (task_id) REFERENCES task(task_id);
+ALTER TABLE task_item ADD FOREIGN KEY (product_id) REFERENCES product(product_id);
+ALTER TABLE task_item ADD FOREIGN KEY (task_type_id) REFERENCES task_type(task_type_id);
 
 CREATE SEQUENCE user_sequence INCREMENT 1;
 CREATE SEQUENCE address_sequence INCREMENT 1;
