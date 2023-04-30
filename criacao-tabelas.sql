@@ -74,7 +74,7 @@ CREATE TABLE task_item (
   price DECIMAL(8, 2)
 );
 
-ALTER TABLE team_member ADD FOREIGN KEY (user_id) REFERENCES user(user_id);
+ALTER TABLE team_member ADD FOREIGN KEY (user_id) REFERENCES users(user_id);
 ALTER TABLE team_member ADD FOREIGN KEY (team_id) REFERENCES team(team_id);
 
 ALTER TABLE client ADD FOREIGN KEY (address_id) REFERENCES address(address_id);
@@ -83,7 +83,7 @@ ALTER TABLE product ADD FOREIGN KEY (client_id) REFERENCES client(client_id);
 ALTER TABLE product ADD FOREIGN KEY (product_type_id) REFERENCES product_type(product_type_id);
 
 ALTER TABLE task ADD FOREIGN KEY (client_id) REFERENCES client(client_id);
-ALTER TABLE task ADD FOREIGN KEY (team_member_id) REFERENCES team_member(user_id);
+ALTER TABLE task ADD FOREIGN KEY (team_member_id) REFERENCES team_member(team_member_id);
 
 ALTER TABLE task_item ADD FOREIGN KEY (task_id) REFERENCES task(task_id);
 ALTER TABLE task_item ADD FOREIGN KEY (product_id) REFERENCES product(product_id);
